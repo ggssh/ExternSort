@@ -83,9 +83,9 @@ void MainWindow::on_buttonsort_clicked()
         }
         //cout<<endl;
         ui->textBrowser->append(s);
-        Sleep(200);
+        //Sleep(200);
     }
-    best_merge_tree(5);
+    best_merge_tree(3);
     write_data();
 }
 
@@ -218,7 +218,7 @@ void MainWindow::best_merge_tree(int kk){
             return a.size>b.size;
         }
     };
-    priority_queue<node,vector<node>,_cmp> a;
+    priority_queue<node,vector<node>,_cmp> a,b;
     int count=0;
     for(int i=0;i<gbc.size();i++){
         if(gbc[i].size()) count++;
@@ -229,14 +229,26 @@ void MainWindow::best_merge_tree(int kk){
             node s;
             s.size=0;
             s.locate=-1;
-            a.push(s);
+            a.push(s);b.push(s);
         }
         cout<<"添加"<<(kk-1)-((count-1)%(kk-1))<<"个虚段"<<endl;
     }
-    while(!a.empty()){
-        cout<<a.top().size<<" ";
-        a.pop();
+    for(int i=0;i<gbc.size();i++){
+        if(gbc[i].size()){
+            node s;
+            s.size=gbc[i].size();
+            s.locate=i;
+            a.push(s);b.push(s);
+        }
     }
+    //cout<<b.size()<<endl;
+    //b=a;
+    while(!b.empty()){
+        cout<<b.top().size<<" ";
+        b.pop();
+    }
+    cout<<endl<<"b 输出结束"<<endl;
+    /*
     for(int i=0;i<gbc.size();i++){
         if(gbc[i].size()){
             node s;
@@ -244,18 +256,19 @@ void MainWindow::best_merge_tree(int kk){
             s.locate=i;
             a.push(s);
         }
-        while(a.size()!=1){
-            node s;
-            s.size=0;
-            for(int i=0;i<kk;i++){
-                if (a.empty()) break;
-               s.size+=a.top().size;
-               cout<<a.top().size<<" ";
-               a.pop();
-            }
-            cout<<endl;
-            a.push(s);
+    }
+    */
+    while(a.size()!=1){
+        node s;
+        s.size=0;
+        for(int i=0;i<kk;i++){
+            if (a.empty()) break;
+           s.size+=a.top().size;
+           cout<<a.top().size<<" ";
+           a.pop();
         }
+        cout<<endl;
+        a.push(s);
     }
 }
 
