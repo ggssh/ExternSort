@@ -21,7 +21,7 @@ MainWindow::MainWindow(QWidget *parent)
 
 MainWindow::~MainWindow()
 {
-    //析构函数
+    //析构函数(useless)
     delete ui;
 }
 
