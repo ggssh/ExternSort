@@ -4,9 +4,9 @@
 #include <string>
 #include <sstream>
 #define TR(str)   (QString::fromLocal8Bit(str))  //解决中文乱码
-#define totallength 20
-#define k 2//选择二路归并
-#define MINKEY -1
+#define totallength 20//生成数据量的大小
+#define k 2//归并的路数
+#define MINKEY -1//败者树中的最小值
 using namespace std;
 vector<vector<int>> gbc;//声明全局变量
 int _count=0;
@@ -21,7 +21,7 @@ MainWindow::MainWindow(QWidget *parent)
 
 MainWindow::~MainWindow()
 {
-    //析构函数(useless)
+    //析构函数
     delete ui;
 }
 
