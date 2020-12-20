@@ -25,35 +25,6 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-/*
-void MainWindow::on_pushButton_clicked()
-{
-    ui->progressBar->setValue(0);
-    ui->textBrowser->clear();
-    ui->progressBar->setRange(0,totallength);
-    int num=0;
-    for(int i=0;i<totallength;i++){
-        num+=i;
-        ui->progressBar->setValue(i*100/totallength);
-        Sleep(10);
-    }
-    QString s=QString::number(num);
-    ui->textBrowser->append(s);
-    ui->progressBar->setValue(totallength);
-}
-void MainWindow::on_pushButton_2_clicked()
-{
-    //srand(time(NULL));
-    FILE* f = fopen("unsort_file.txt", "wt");
-    for (int i = 0; i < 10000; i++) {
-        fprintf(f, "%d ", rand());
-    }
-    fclose(f);
-    ui->progressBar->setValue(0);
-    ui->progressBar->setRange(0,10000);
-
-}
-*/
 void MainWindow::on_buttonperform_clicked()
 {
     //选择算法演示
