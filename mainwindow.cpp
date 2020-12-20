@@ -59,7 +59,7 @@ void MainWindow::on_buttonsort_clicked()
     best_merge_tree(3);
     write_data();
 }
-
+//Still have something wrong
 void MainWindow::select_replace(int kk){
     FILE* fin = fopen("unsort_file.txt","rt");
     typedef struct buf
@@ -140,19 +140,22 @@ void MainWindow::select_replace(int kk){
     fclose(fin);
 }
 
+//no problem
 void MainWindow::init_data(int n){
     //向文件中写入需要排序的数据
-        //在主函数中定义宏来确定需要排序的数据量的大小
-        srand(time(NULL));
-        FILE* f = fopen("unsort_file.txt", "wt");
-        for (int i = 0; i < n; i++) {
-            fprintf(f, "%d ", rand());
-        }
-        fclose(f);
+    //在主函数中定义宏来确定需要排序的数据量的大小
+    srand(time(NULL));
+    FILE* f = fopen("unsort_file.txt", "wt");
+    for (int i = 0; i < n; i++) {
+        fprintf(f, "%d ", rand());
+    }
+    fclose(f);
 }
 
+//no problem
 void MainWindow::write_data(){
-    int n=0;
+    //将经选择置换排序之后获得的数据依次写入每个文件中
+     int n=0;
      for(int i=0;i<gbc.size();i++){
          if(gbc[i].size()) n++;
      }
@@ -177,6 +180,7 @@ void MainWindow::loser_merge(int kk){
 
 }
 
+//TO DO
 void MainWindow::best_merge_tree(int kk){
     typedef struct node{
         int size;
@@ -243,7 +247,9 @@ void MainWindow::best_merge_tree(int kk){
     }
 }
 
+//no problem
 void MainWindow::Adjust(int s){
+    //调整败者树
     int t=(s+k)/2;
         int temp;
         while(t>0)
@@ -260,6 +266,7 @@ void MainWindow::Adjust(int s){
 }
 
 void MainWindow::CreateLoserTree(){
+    //创建一个败者树
     External[k]=MINKEY;
     int i;
     for(i=0;i<k;i++)LoserTree[i]=k;
