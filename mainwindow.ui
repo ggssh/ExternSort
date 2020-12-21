@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>634</width>
-    <height>408</height>
+    <width>709</width>
+    <height>499</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -17,11 +17,17 @@
    <widget class="QPushButton" name="buttonperform">
     <property name="geometry">
      <rect>
-      <x>520</x>
-      <y>270</y>
+      <x>300</x>
+      <y>310</y>
       <width>101</width>
       <height>28</height>
      </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>幼圆</family>
+      <pointsize>10</pointsize>
+     </font>
     </property>
     <property name="text">
      <string>算法演示</string>
@@ -32,8 +38,8 @@
      <rect>
       <x>9</x>
       <y>229</y>
-      <width>501</width>
-      <height>170</height>
+      <width>261</width>
+      <height>261</height>
      </rect>
     </property>
    </widget>
@@ -48,7 +54,7 @@
     </property>
     <property name="font">
      <font>
-      <family>Bahnschrift SemiCondensed</family>
+      <family>幼圆</family>
       <pointsize>11</pointsize>
      </font>
     </property>
@@ -69,9 +75,14 @@
      <rect>
       <x>9</x>
       <y>200</y>
-      <width>521</width>
+      <width>701</width>
       <height>23</height>
      </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>JetBrains Mono</family>
+     </font>
     </property>
     <property name="value">
      <number>0</number>
@@ -83,14 +94,113 @@
    <widget class="QPushButton" name="buttonsort">
     <property name="geometry">
      <rect>
-      <x>520</x>
-      <y>340</y>
+      <x>300</x>
+      <y>420</y>
       <width>103</width>
       <height>28</height>
      </rect>
     </property>
+    <property name="font">
+     <font>
+      <family>幼圆</family>
+      <pointsize>11</pointsize>
+     </font>
+    </property>
     <property name="text">
      <string>外部排序</string>
+    </property>
+   </widget>
+   <widget class="QSpinBox" name="spinBox1">
+    <property name="geometry">
+     <rect>
+      <x>630</x>
+      <y>30</y>
+      <width>61</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>JetBrains Mono</family>
+     </font>
+    </property>
+    <property name="minimum">
+     <number>20</number>
+    </property>
+    <property name="maximum">
+     <number>1000</number>
+    </property>
+    <property name="displayIntegerBase">
+     <number>10</number>
+    </property>
+   </widget>
+   <widget class="QSpinBox" name="spinBox2">
+    <property name="geometry">
+     <rect>
+      <x>630</x>
+      <y>120</y>
+      <width>61</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>JetBrains Mono</family>
+     </font>
+    </property>
+    <property name="minimum">
+     <number>2</number>
+    </property>
+    <property name="maximum">
+     <number>10</number>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_2">
+    <property name="geometry">
+     <rect>
+      <x>520</x>
+      <y>30</y>
+      <width>61</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>幼圆</family>
+      <pointsize>11</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string>数据量</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_3">
+    <property name="geometry">
+     <rect>
+      <x>510</x>
+      <y>120</y>
+      <width>72</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>幼圆</family>
+      <pointsize>11</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string>归并路数</string>
+    </property>
+   </widget>
+   <widget class="QTextBrowser" name="textBrowser_2">
+    <property name="geometry">
+     <rect>
+      <x>420</x>
+      <y>230</y>
+      <width>261</width>
+      <height>261</height>
+     </rect>
     </property>
    </widget>
   </widget>

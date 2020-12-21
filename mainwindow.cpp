@@ -4,13 +4,16 @@
 #include <string>
 #include <sstream>
 #define TR(str)   (QString::fromLocal8Bit(str))  //解决中文乱码
-#define totallength 20//生成数据量的大小
-#define k 2//归并的路数
-#define MINKEY -1//败者树中的最小值
 using namespace std;
+
+#define totallength 100  //生成数据量的大小
+#define ways 3          //归并的路数
+#define MINKEY -1       //败者树中的最小值
+
 vector<vector<int>> gbc;//声明全局变量
-int _count=0;
+int m_count=0;          //获得的归并段数量
 int *LoserTree,*External;
+
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
@@ -34,13 +37,6 @@ void MainWindow::on_buttonperform_clicked()
 
 void MainWindow::on_buttonsort_clicked()
 {
-    /*
-     * 对文件进行外部排序
-     * 1.void init_data(int n) n为生成的数据量
-     * 2.void select_replace() 使用置换选择排序来将初始文件分为多个归并段,并在进度条中显示
-     *  考虑使用sleep()来让程序输出减慢 将数据写入文件中
-     * 3.void huffman() 根据每个文件的长度来构建一个最佳的哈夫曼树
-     */
     gbc.clear();
     ui->textBrowser->clear();
     init_data(totallength);
@@ -50,13 +46,11 @@ void MainWindow::on_buttonsort_clicked()
         for(int j=0;j<gbc[i].size();j++){
             s+=QString::number(gbc[i][j]);
             s+=" ";
-            //cout<<gbc[i][j]<<" ";
         }
-        //cout<<endl;
         ui->textBrowser->append(s);
-        //Sleep(200);
     }
-    best_merge_tree(3);
+    //gbc.clear();
+    best_merge_tree(4);
     write_data();
 }
 //Still have something wrong
@@ -77,9 +71,9 @@ void MainWindow::select_replace(int kk){
         }
     };
     ui->progressBar->setValue(0);
-    int count=0;
+    int count=0;//设置进度条的数值
     ui->progressBar->setRange(0,totallength);
-    priority_queue<buf,vector<buf>,_cmp> temp;
+    priority_queue<buf,vector<buf>,_cmp> temp;//利用优先队列作为选择置换排序缓冲区
     int aa;
     int n=0;
     buf a1,a2,a3;
@@ -176,12 +170,13 @@ void MainWindow::write_data(){
      }
 }
 
-void MainWindow::loser_merge(int kk){
+void MainWindow::loser_merge(int temp1){
+    cout<<temp1<<endl;
 
 }
 
 //TO DO
-void MainWindow::best_merge_tree(int kk){
+void MainWindow::best_merge_tree(int k){
     typedef struct node{
         int size;
         int locate;
@@ -198,15 +193,15 @@ void MainWindow::best_merge_tree(int kk){
     for(int i=0;i<gbc.size();i++){
         if(gbc[i].size()) count++;
     }
-    _count=count;
-    if((count-1)%(kk-1)){
-        for(int i=0;i<((kk-1)-((count-1)%(kk-1)));i++){
+    m_count=count;
+    if((count-1)%(k-1)){
+        for(int i=0;i<((k-1)-((count-1)%(k-1)));i++){
             node s;
             s.size=0;
             s.locate=-1;
             a.push(s);b.push(s);
         }
-        cout<<"添加"<<(kk-1)-((count-1)%(kk-1))<<"个虚段"<<endl;
+        cout<<"添加"<<(k-1)-((count-1)%(k-1))<<"个虚段"<<endl;
     }
     for(int i=0;i<gbc.size();i++){
         if(gbc[i].size()){
@@ -222,8 +217,9 @@ void MainWindow::best_merge_tree(int kk){
         cout<<b.top().size<<" ";
         b.pop();
     }
-    cout<<endl<<"b 输出结束"<<endl;
+    cout<<endl<<"以上为当前所有的归并串的长度 输出结束"<<endl;
     /*
+     *
     for(int i=0;i<gbc.size();i++){
         if(gbc[i].size()){
             node s;
@@ -233,24 +229,40 @@ void MainWindow::best_merge_tree(int kk){
         }
     }
     */
+    int guibing_count = 1;
     while(a.size()!=1){
         node s;
         s.size=0;
-        for(int i=0;i<kk;i++){
-            if (a.empty()) break;
+        /*
+        for(int i=0;i<k;i++){
+           if(a.empty()) break;
            s.size+=a.top().size;
            cout<<a.top().size<<" ";
            a.pop();
+        }*/
+        QString str=TR("第");
+        str+=QString::number(guibing_count);
+        str+=TR("次归并:");
+        for(int i=0;i<k;i++){
+            if(a.empty()) break;
+            s.size+=a.top().size;
+            str+=QString::number(a.top().size);
+            str+=" ";
+            a.pop();
         }
-        cout<<endl;
+        QString str_temp = TR(" \n得到长度为")+QString::number(s.size)+TR("的顺串\n");
+        str+=str_temp;
+        ui->textBrowser_2->append(str);
+        guibing_count++;
+        //cout<<endl;
         a.push(s);
     }
+    cout<<endl;
 }
 
-//no problem
 void MainWindow::Adjust(int s){
     //调整败者树
-    int t=(s+k)/2;
+    int t=(s+ways)/2;
         int temp;
         while(t>0)
         {
@@ -267,8 +279,8 @@ void MainWindow::Adjust(int s){
 
 void MainWindow::CreateLoserTree(){
     //创建一个败者树
-    External[k]=MINKEY;
+    External[ways]=MINKEY;
     int i;
-    for(i=0;i<k;i++)LoserTree[i]=k;
-    for(i=k-1;i>=0;i--)Adjust(i);
+    for(i=0;i<ways;i++)LoserTree[i]=ways;
+    for(i=ways-1;i>=0;i--)Adjust(i);
 }
