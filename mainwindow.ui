@@ -42,6 +42,12 @@
       <height>261</height>
      </rect>
     </property>
+    <property name="font">
+     <font>
+      <family>JetBrains Mono Light</family>
+      <pointsize>8</pointsize>
+     </font>
+    </property>
    </widget>
    <widget class="QLabel" name="label">
     <property name="geometry">
@@ -201,6 +207,12 @@
       <width>261</width>
       <height>261</height>
      </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>JetBrains Mono Light</family>
+      <pointsize>8</pointsize>
+     </font>
     </property>
    </widget>
   </widget>

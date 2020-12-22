@@ -41,5 +41,6 @@ private:
     void best_merge_tree(int kk);
     void Adjust(int s);
     void CreateLoserTree();
+    char *temp_filename(int index);
 };
 #endif // MAINWINDOW_H

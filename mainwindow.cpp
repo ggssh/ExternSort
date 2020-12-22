@@ -6,13 +6,18 @@
 #define TR(str)   (QString::fromLocal8Bit(str))  //解决中文乱码
 using namespace std;
 
-#define totallength 100  //生成数据量的大小
+//#define totallength 100  //生成数据量的大小
 #define ways 3          //归并的路数
 #define MINKEY -1       //败者树中的最小值
+typedef int* LoserTree;
+typedef int* External;
 
 vector<vector<int>> gbc;//声明全局变量
 int m_count=0;          //获得的归并段数量
-int *LoserTree,*External;
+int totallength = 20;   //生成的数据量的大小
+LoserTree ls;//败者树，定义为指针，之后生成动态数组
+External b;//定义为指针，在成员函数中可以把它当作数组使用
+
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -20,6 +25,9 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
     this->setWindowTitle(TR("计科1904-原毅哲-最佳归并树"));
+    //connect(ui->spinBox1,SIGNAL(valueChanged(int)),this,SLOT(getValueSpinBox1()));
+    //TO DO
+    //connect()
 }
 
 MainWindow::~MainWindow()
@@ -38,7 +46,9 @@ void MainWindow::on_buttonperform_clicked()
 void MainWindow::on_buttonsort_clicked()
 {
     gbc.clear();
+    totallength=ui->spinBox1->value();
     ui->textBrowser->clear();
+    ui->textBrowser_2->clear();
     init_data(totallength);
     select_replace(5);
     for(int i=0;i<gbc.size();i++){
@@ -166,16 +176,46 @@ void MainWindow::write_data(){
          for(int j=0;j<gbc[i].size();j++){
              fprintf(fout,"%d ",gbc[i][j]);
          }
+         fprintf(fout,"%d",INT_MAX);
          fclose(fout);
      }
 }
 
-void MainWindow::loser_merge(int temp1){
-    cout<<temp1<<endl;
-
+//TO DO
+void MainWindow::loser_merge(int k){
+    FILE *fout = fopen("sort_file.txt","wt");
+    FILE** farray = new FILE*[k];
+    for(int i=0;i<m_count;i++){
+        //打开所有k路输入文件
+        char* fileName = temp_filename(i);
+        farray[i] = fopen(fileName,"rt");
+        free(fileName);
+    }
+    for(int i=0;i<m_count;i++){
+        //初始读取，第一个顺串向b[0]中写入数据，依次类推
+        if(fscanf(farray[i],"%d",&b[i])==EOF){
+            //读取每个文件的第一个数到data数组
+            //先注释掉以免出现bug
+            return;
+        }
+    }
+    CreateLoserTree();
+    int q;
+    while(b[ls[0]]!=INT_MAX){
+        q=ls[0];
+        fprintf(fout,"%d",b[q]);
+        fscanf(farray[q],"%d",&b[q]);
+        Adjust(q);
+    }
+    //fprintf(fout,"%d ",b[ls[0]]);//其实没有必要在输出文件的最后写一个最大值
+    for(int i=0;i<m_count;i++){
+        fclose(farray[i]);
+    }
+    delete[] farray;
+    fclose(fout);
 }
 
-//TO DO
+//still has something to fix
 void MainWindow::best_merge_tree(int k){
     typedef struct node{
         int size;
@@ -201,7 +241,9 @@ void MainWindow::best_merge_tree(int k){
             s.locate=-1;
             a.push(s);b.push(s);
         }
-        cout<<"添加"<<(k-1)-((count-1)%(k-1))<<"个虚段"<<endl;
+        QString str = TR("添加") + QString::number((k-1)-((count-1)%(k-1))) + TR("个虚段");
+        ui->textBrowser_2->append(str);
+        //cout<<"添加"<<(k-1)-((count-1)%(k-1))<<"个虚段"<<endl;
     }
     for(int i=0;i<gbc.size();i++){
         if(gbc[i].size()){
@@ -257,30 +299,39 @@ void MainWindow::best_merge_tree(int k){
         //cout<<endl;
         a.push(s);
     }
+    ui->textBrowser_2->append(TR("归并成功"));
     cout<<endl;
 }
 
 void MainWindow::Adjust(int s){
     //调整败者树
-    int t=(s+ways)/2;
+    //沿从叶子结点b[s]到根结点ls[0]的路径调整败者树
+    int t=(s+m_count)/2;//l[t]是b[s]的双亲节点
         int temp;
         while(t>0)
         {
-            if(External[s] > External[LoserTree[t]])
+            if(b[s] > b[ls[t]])
             {
                 temp = s;
-                s = LoserTree[t];
-                LoserTree[t]=temp;
+                s = ls[t];
+                ls[t]=temp;
             }
             t=t/2;
         }
-        LoserTree[0]=s;
+        ls[0]=s;//ls[0]存放调整后的最大值的位置
+}
+
+char * MainWindow::temp_filename(int index){
+    //创建临时文件
+    char* tempfile = new char[100];
+    sprintf(tempfile, "temp%d.txt", index);
+    return tempfile;
 }
 
 void MainWindow::CreateLoserTree(){
     //创建一个败者树
-    External[ways]=MINKEY;
-    int i;
-    for(i=0;i<ways;i++)LoserTree[i]=ways;
-    for(i=ways-1;i>=0;i--)Adjust(i);
+    b[ways]=MINKEY;
+
+    for(int i=0;i<ways;i++) ls[i]=ways;
+    for(int i=ways-1;i>=0;i--)Adjust(i);
 }
