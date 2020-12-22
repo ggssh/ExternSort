@@ -33,7 +33,7 @@ private slots:
 private:
     Ui::MainWindow *ui;
     perform_menu *pm;
-    ShowContent *showcontent;
+    ShowContent *showcontent=NULL;
 
     void select_replace(int k);
     void init_data(int n);

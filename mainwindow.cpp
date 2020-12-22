@@ -26,7 +26,7 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
     this->setWindowTitle(TR("计科1904-原毅哲-最佳归并树"));
-    showcontent = new ShowContent;
+    //showcontent = new ShowContent;
 }
 
 MainWindow::~MainWindow()
@@ -44,7 +44,12 @@ void MainWindow::on_buttonperform_clicked()
 
 void MainWindow::on_buttonsort_clicked()
 {
-    showcontent->close();
+    //showcontent->close();
+    if(showcontent){
+        showcontent->close();
+        delete showcontent;
+        showcontent = NULL;
+    }
     Initial();
     init_data(totallength);
     select_replace(5);
@@ -62,7 +67,20 @@ void MainWindow::on_buttonsort_clicked()
     write_data();
     gbc.clear();
     loser_merge(m_count);
-    showcontent->show();
+    //showcontent->show();
+    /*
+    if(!showcontent->isHidden()){
+        showcontent->close();
+        delete showcontent;
+    }
+    else{
+        showcontent->show();
+    }
+    */
+    if(!showcontent){
+        showcontent = new ShowContent;
+        showcontent->show();
+    }
 }
 //Still have something wrong,but now that looks better than before
 void MainWindow::select_replace(int kk){
@@ -353,9 +371,11 @@ void MainWindow::Initial(){
 void MainWindow::displayMergeSegment(){
     for(int i=0;i<gbc.size();i++){
         QString s=TR("第");
-        s+=QString::number(i);
+        s+=QString::number(i+1);
         s+=TR("个归并段长度为:");
-        if(gbc[i].size()) s+=QString::number(gbc[i].size());
-        ui->textBrowser->append(s);
+        if(gbc[i].size()){
+            s+=QString::number(gbc[i].size());
+            ui->textBrowser->append(s);
+        }
     }
 }
