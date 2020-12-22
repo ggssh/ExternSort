@@ -7,14 +7,15 @@
 using namespace std;
 
 //#define totallength 100  //生成数据量的大小
-#define ways 3          //归并的路数
+//#define ways 3          //归并的路数
 #define MINKEY -1       //败者树中的最小值
 typedef int* LoserTree;
 typedef int* External;
 
 vector<vector<int>> gbc;//声明全局变量
 int m_count=0;          //获得的归并段数量
-int totallength = 20;   //生成的数据量的大小
+int totallength;        //生成的数据量的大小
+int ways;               //归并的路数
 LoserTree ls;//败者树，定义为指针，之后生成动态数组
 External b;//定义为指针，在成员函数中可以把它当作数组使用
 
@@ -25,9 +26,7 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
     this->setWindowTitle(TR("计科1904-原毅哲-最佳归并树"));
-    //connect(ui->spinBox1,SIGNAL(valueChanged(int)),this,SLOT(getValueSpinBox1()));
-    //TO DO
-    //connect()
+    showcontent = new ShowContent;
 }
 
 MainWindow::~MainWindow()
@@ -45,12 +44,11 @@ void MainWindow::on_buttonperform_clicked()
 
 void MainWindow::on_buttonsort_clicked()
 {
-    gbc.clear();
-    totallength=ui->spinBox1->value();
-    ui->textBrowser->clear();
-    ui->textBrowser_2->clear();
+    showcontent->close();
+    Initial();
     init_data(totallength);
     select_replace(5);
+    /*
     for(int i=0;i<gbc.size();i++){
         QString s="";
         for(int j=0;j<gbc[i].size();j++){
@@ -58,12 +56,15 @@ void MainWindow::on_buttonsort_clicked()
             s+=" ";
         }
         ui->textBrowser->append(s);
-    }
-    //gbc.clear();
-    best_merge_tree(4);
+    }*/
+    displayMergeSegment();
+    best_merge_tree(ways);
     write_data();
+    gbc.clear();
+    loser_merge(m_count);
+    showcontent->show();
 }
-//Still have something wrong
+//Still have something wrong,but now that looks better than before
 void MainWindow::select_replace(int kk){
     FILE* fin = fopen("unsort_file.txt","rt");
     typedef struct buf
@@ -183,15 +184,18 @@ void MainWindow::write_data(){
 
 //TO DO
 void MainWindow::loser_merge(int k){
+    ls = new int[k];
+    b = new int[k+1];
     FILE *fout = fopen("sort_file.txt","wt");
     FILE** farray = new FILE*[k];
-    for(int i=0;i<m_count;i++){
+    for(int i=0;i<k;i++){
         //打开所有k路输入文件
         char* fileName = temp_filename(i);
         farray[i] = fopen(fileName,"rt");
+        //cout<<"HelloWorld"<<endl;
         free(fileName);
     }
-    for(int i=0;i<m_count;i++){
+    for(int i=0;i<k;i++){
         //初始读取，第一个顺串向b[0]中写入数据，依次类推
         if(fscanf(farray[i],"%d",&b[i])==EOF){
             //读取每个文件的第一个数到data数组
@@ -203,15 +207,17 @@ void MainWindow::loser_merge(int k){
     int q;
     while(b[ls[0]]!=INT_MAX){
         q=ls[0];
-        fprintf(fout,"%d",b[q]);
+        fprintf(fout,"%d ",b[q]);
         fscanf(farray[q],"%d",&b[q]);
         Adjust(q);
     }
     //fprintf(fout,"%d ",b[ls[0]]);//其实没有必要在输出文件的最后写一个最大值
-    for(int i=0;i<m_count;i++){
+    for(int i=0;i<k;i++){
         fclose(farray[i]);
     }
     delete[] farray;
+    delete[] ls;
+    delete[] b;
     fclose(fout);
 }
 
@@ -330,8 +336,26 @@ char * MainWindow::temp_filename(int index){
 
 void MainWindow::CreateLoserTree(){
     //创建一个败者树
-    b[ways]=MINKEY;
+    b[m_count]=MINKEY;
+    for(int i=0;i<m_count;i++) ls[i]=m_count;
+    for(int i=m_count-1;i>=0;i--)Adjust(i);
+}
 
-    for(int i=0;i<ways;i++) ls[i]=ways;
-    for(int i=ways-1;i>=0;i--)Adjust(i);
+void MainWindow::Initial(){
+    //对全局变量以及控件进行初始化
+    gbc.clear();
+    totallength=ui->spinBox1->value();
+    ways=ui->spinBox2->value();
+    ui->textBrowser->clear();
+    ui->textBrowser_2->clear();
+}
+
+void MainWindow::displayMergeSegment(){
+    for(int i=0;i<gbc.size();i++){
+        QString s=TR("第");
+        s+=QString::number(i);
+        s+=TR("个归并段长度为:");
+        if(gbc[i].size()) s+=QString::number(gbc[i].size());
+        ui->textBrowser->append(s);
+    }
 }

@@ -21,21 +21,24 @@ SOURCES += \
     main.cpp \
     mainwindow.cpp \
     perform_menu.cpp \
-    selectrp.cpp
+    selectrp.cpp \
+    showcontent.cpp
 
 HEADERS += \
     huffman.h \
     losertree.h \
     mainwindow.h \
     perform_menu.h \
-    selectrp.h
+    selectrp.h \
+    showcontent.h
 
 FORMS += \
     huffman.ui \
     losertree.ui \
     mainwindow.ui \
     perform_menu.ui \
-    selectrp.ui
+    selectrp.ui \
+    showcontent.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin

@@ -3,6 +3,7 @@
 
 #include <QMainWindow>
 #include "perform_menu.h"
+#include "showcontent.h"
 #include <vector>
 #include <iostream>
 #include <fstream>
@@ -32,7 +33,7 @@ private slots:
 private:
     Ui::MainWindow *ui;
     perform_menu *pm;
-
+    ShowContent *showcontent;
 
     void select_replace(int k);
     void init_data(int n);
@@ -42,5 +43,7 @@ private:
     void Adjust(int s);
     void CreateLoserTree();
     char *temp_filename(int index);
+    void Initial();
+    void displayMergeSegment();
 };
 #endif // MAINWINDOW_H
