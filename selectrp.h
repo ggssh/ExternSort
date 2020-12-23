@@ -3,6 +3,7 @@
 
 #include <QWidget>
 #include <QIcon>
+#include <QMovie>
 
 namespace Ui {
 class selectrp;

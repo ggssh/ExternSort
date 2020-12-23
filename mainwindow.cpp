@@ -76,7 +76,10 @@ void MainWindow::SelectReplace(int k){
 
     struct my_cmp
     {
-        //自定义优先队列比较函数,flag=1表示打过标记,flag相同的话小的排在前面,未被标记的排在队列的前面
+        /*自定义优先队列比较函数
+         * flag=1表示打过标记
+         * flag相同的话小的排在前面,未被标记的排在队列的前面
+         */
         bool operator()(const buf& a, const buf& b) {
             if (a.flag == b.flag) return a.num > b.num;
             else return a.flag > b.flag;
