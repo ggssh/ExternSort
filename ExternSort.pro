@@ -22,7 +22,8 @@ SOURCES += \
     mainwindow.cpp \
     perform_menu.cpp \
     selectrp.cpp \
-    showcontent.cpp
+    showcontent.cpp \
+    tools.cpp
 
 HEADERS += \
     huffman.h \
@@ -30,7 +31,8 @@ HEADERS += \
     mainwindow.h \
     perform_menu.h \
     selectrp.h \
-    showcontent.h
+    showcontent.h \
+    tools.h
 
 FORMS += \
     huffman.ui \

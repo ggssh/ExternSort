@@ -1,6 +1,7 @@
 ﻿#include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include "Windows.h"
+#include "tools.h"
 #include <string>
 #include <sstream>
 #define TR(str)   (QString::fromLocal8Bit(str))  //解决中文乱码
@@ -146,6 +147,7 @@ void MainWindow::select_replace(int kk){
 }
 
 //no problem
+/*
 void MainWindow::init_data(int n){
     //向文件中写入需要排序的数据
     srand(time(NULL));
@@ -154,7 +156,7 @@ void MainWindow::init_data(int n){
         fprintf(f, "%d ", rand());
     }
     fclose(f);
-}
+}*/
 
 //no problem
 void MainWindow::write_data(){
@@ -222,7 +224,7 @@ void MainWindow::loser_merge(int k){
 void MainWindow::best_merge_tree(int k){
     typedef struct node{
         int size;
-        int locate;
+        //int locate;
     }node;
 
     /*
@@ -236,28 +238,32 @@ void MainWindow::best_merge_tree(int k){
             return a.size>b.size;
         }
     };
-    priority_queue<node,vector<node>,_cmp> a,b;
+    priority_queue<node,vector<node>,_cmp> priQueueA,priQueueB;//创建两个优先队列来实现哈夫曼树
     int count=0;
     for(int i=0;i<gbc.size();i++){
         if(gbc[i].size()) count++;
     }
-    m_count=count;
+    m_count=count;//对归并串的数量进行赋值
     if((count-1)%(k-1)){
+        //判断是否需要添加虚段
         for(int i=0;i<((k-1)-((count-1)%(k-1)));i++){
             node s;
             s.size=0;
-            s.locate=-1;
-            a.push(s);b.push(s);
+            //s.locate=-1;
+            priQueueA.push(s);
+            priQueueB.push(s);
         }
         QString str = TR("添加") + QString::number((k-1)-((count-1)%(k-1))) + TR("个虚段");
         ui->textBrowser_2->append(str);
     }
+    else ui->textBrowser_2->append(TR("不需要添加虚段"));
     for(int i=0;i<gbc.size();i++){
         if(gbc[i].size()){
             node s;
             s.size=gbc[i].size();
-            s.locate=i;
-            a.push(s);b.push(s);
+            //s.locate=i;
+            priQueueA.push(s);
+            priQueueB.push(s);
         }
     }
     /*
@@ -278,10 +284,10 @@ void MainWindow::best_merge_tree(int k){
         }
     }
     */
-    int guibing_count = 1;
-    while(a.size()!=1){
-        node s;
-        s.size=0;
+    int merge_count = 1;
+    while(priQueueA.size()!=1){
+        node res;
+        res.size=0;
         /*
         for(int i=0;i<k;i++){
            if(a.empty()) break;
@@ -290,49 +296,51 @@ void MainWindow::best_merge_tree(int k){
            a.pop();
         }*/
         QString str=TR("第");
-        str+=QString::number(guibing_count);
+        str+=QString::number(merge_count);
         str+=TR("次归并:");
         for(int i=0;i<k;i++){
-            if(a.empty()) break;
-            s.size+=a.top().size;
-            str+=QString::number(a.top().size);
+            if(priQueueA.empty()) break;
+            res.size+=priQueueA.top().size;
+            str+=QString::number(priQueueA.top().size);
             str+=" ";
-            a.pop();
+            priQueueA.pop();
         }
-        QString str_temp = TR(" \n得到长度为")+QString::number(s.size)+TR("的顺串\n");
+        QString str_temp = TR(" \n得到长度为")+QString::number(res.size)+TR("的顺串\n");
         str+=str_temp;
         ui->textBrowser_2->append(str);
-        guibing_count++;
-        a.push(s);
+        merge_count++;
+        priQueueA.push(res);
     }
     ui->textBrowser_2->append(TR("归并成功"));
-    cout<<endl;
 }
 
 void MainWindow::Adjust(int s){
     //调整败者树
     //沿从叶子结点b[s]到根结点ls[0]的路径调整败者树
     int t=(s+m_count)/2;//l[t]是b[s]的双亲节点
-        int temp;
+        //int temp;
         while(t>0)
         {
             if(b[s] > b[ls[t]])
             {
+                /*
                 temp = s;
                 s = ls[t];
                 ls[t]=temp;
+                */
+                m_swap(s,ls[t]);
             }
             t=t/2;
         }
         ls[0]=s;//ls[0]存放调整后的最大值的位置
 }
-
+/*
 char * MainWindow::temp_filename(int index){
     //创建临时文件
     char* tempfile = new char[100];
     sprintf(tempfile, "temp%d.txt", index);
     return tempfile;
-}
+}*/
 
 void MainWindow::CreateLoserTree(){
     //创建一个败者树
