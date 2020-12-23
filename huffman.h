@@ -4,6 +4,7 @@
 #include <QWidget>
 #include <QLabel>
 #include <QMovie>
+#include <QIcon>
 
 namespace Ui {
 class huffman;

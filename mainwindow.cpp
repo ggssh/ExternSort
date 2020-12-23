@@ -6,9 +6,9 @@
 #define TR(str)   (QString::fromLocal8Bit(str))  //解决中文乱码
 using namespace std;
 
-//#define totallength 100  //生成数据量的大小
-//#define ways 3          //归并的路数
 #define MINKEY -1       //败者树中的最小值
+#define BUFFER 5        //置换选择排序中的缓冲区的大小
+
 typedef int* LoserTree;
 typedef int* External;
 
@@ -16,6 +16,7 @@ vector<vector<int>> gbc;//声明全局变量
 int m_count=0;          //获得的归并段数量
 int totallength;        //生成的数据量的大小
 int ways;               //归并的路数
+
 LoserTree ls;//败者树，定义为指针，之后生成动态数组
 External b;//定义为指针，在成员函数中可以把它当作数组使用
 
@@ -25,8 +26,10 @@ MainWindow::MainWindow(QWidget *parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+    setWindowFlags(windowFlags()&~Qt::WindowMaximizeButtonHint);    // 禁止最大化按钮
+    setFixedSize(this->width(),this->height());                     // 禁止拖动窗口大小
     this->setWindowTitle(TR("计科1904-原毅哲-最佳归并树"));
-    //showcontent = new ShowContent;
+    this->setWindowIcon(QIcon(":/image/image/bg2.jpg"));
 }
 
 MainWindow::~MainWindow()
@@ -44,7 +47,6 @@ void MainWindow::on_buttonperform_clicked()
 
 void MainWindow::on_buttonsort_clicked()
 {
-    //showcontent->close();
     if(showcontent){
         showcontent->close();
         delete showcontent;
@@ -52,31 +54,11 @@ void MainWindow::on_buttonsort_clicked()
     }
     Initial();
     init_data(totallength);
-    select_replace(5);
-    /*
-    for(int i=0;i<gbc.size();i++){
-        QString s="";
-        for(int j=0;j<gbc[i].size();j++){
-            s+=QString::number(gbc[i][j]);
-            s+=" ";
-        }
-        ui->textBrowser->append(s);
-    }*/
+    select_replace(BUFFER);
     displayMergeSegment();
     best_merge_tree(ways);
     write_data();
-    gbc.clear();
     loser_merge(m_count);
-    //showcontent->show();
-    /*
-    if(!showcontent->isHidden()){
-        showcontent->close();
-        delete showcontent;
-    }
-    else{
-        showcontent->show();
-    }
-    */
     if(!showcontent){
         showcontent = new ShowContent;
         showcontent->show();
@@ -91,7 +73,7 @@ void MainWindow::select_replace(int kk){
         int num;
         int flag=0;
     }buf;
-    struct _cmp
+    struct my_cmp
     {
         //自定义优先队列比较函数,flag=1表示打过标记,flag相同的话小的排在前面,未被标记的排在队列的前面
         bool operator()(const buf& a, const buf& b) {
@@ -99,10 +81,10 @@ void MainWindow::select_replace(int kk){
             else return a.flag > b.flag;
         }
     };
-    ui->progressBar->setValue(0);
-    int count=0;//设置进度条的数值
+    ui->progressBar->setValue(0);//设置进度条的数值
+    int count=0;//对数据量进行计数
     ui->progressBar->setRange(0,totallength);
-    priority_queue<buf,vector<buf>,_cmp> temp;//利用优先队列作为选择置换排序缓冲区
+    priority_queue<buf,vector<buf>,my_cmp> temp;//利用优先队列作为选择置换排序缓冲区
     int aa;
     int n=0;
     buf a1,a2,a3;
@@ -166,7 +148,6 @@ void MainWindow::select_replace(int kk){
 //no problem
 void MainWindow::init_data(int n){
     //向文件中写入需要排序的数据
-    //在主函数中定义宏来确定需要排序的数据量的大小
     srand(time(NULL));
     FILE* f = fopen("unsort_file.txt", "wt");
     for (int i = 0; i < n; i++) {
@@ -178,26 +159,27 @@ void MainWindow::init_data(int n){
 //no problem
 void MainWindow::write_data(){
     //将经选择置换排序之后获得的数据依次写入每个文件中
-     int n=0;
+     int n=0;//记录归并段的数量
      for(int i=0;i<gbc.size();i++){
          if(gbc[i].size()) n++;
      }
      for(int i=0;i<n;i++){
-         string s="temp";
-         string ss;
-         stringstream s1;
-         s1<<i;
-         s1>>ss;
-         s+=ss;
-         s+=".txt";
-         const char* s2=s.c_str();
-         FILE* fout=fopen(s2,"w+");
+         string outstr="temp";
+         string tempstr;
+         stringstream sstr;
+         sstr<<i;
+         sstr>>tempstr;
+         outstr+=tempstr;
+         outstr+=".txt";
+         const char* sout=outstr.c_str();
+         FILE* fout=fopen(sout,"w+");
          for(int j=0;j<gbc[i].size();j++){
              fprintf(fout,"%d ",gbc[i][j]);
          }
          fprintf(fout,"%d",INT_MAX);
          fclose(fout);
      }
+     gbc.clear();//清理内存
 }
 
 //TO DO
@@ -210,18 +192,16 @@ void MainWindow::loser_merge(int k){
         //打开所有k路输入文件
         char* fileName = temp_filename(i);
         farray[i] = fopen(fileName,"rt");
-        //cout<<"HelloWorld"<<endl;
         free(fileName);
     }
     for(int i=0;i<k;i++){
-        //初始读取，第一个顺串向b[0]中写入数据，依次类推
+        //初始读取第一个顺串向b[0]中写入数据，依次类推
         if(fscanf(farray[i],"%d",&b[i])==EOF){
             //读取每个文件的第一个数到data数组
-            //先注释掉以免出现bug
             return;
         }
     }
-    CreateLoserTree();
+    CreateLoserTree();//创建一个败者树
     int q;
     while(b[ls[0]]!=INT_MAX){
         q=ls[0];
@@ -229,9 +209,8 @@ void MainWindow::loser_merge(int k){
         fscanf(farray[q],"%d",&b[q]);
         Adjust(q);
     }
-    //fprintf(fout,"%d ",b[ls[0]]);//其实没有必要在输出文件的最后写一个最大值
     for(int i=0;i<k;i++){
-        fclose(farray[i]);
+        fclose(farray[i]);//依次关闭每个FILE
     }
     delete[] farray;
     delete[] ls;
@@ -245,9 +224,14 @@ void MainWindow::best_merge_tree(int k){
         int size;
         int locate;
     }node;
+
+    /*
+     * 自定义优先队列比较函数
+     * flag=1表示打过标记,flag相同的话小的排在前面
+     * 未被标记的排在队列的前面
+     */
     struct _cmp
     {
-        //自定义优先队列比较函数,flag=1表示打过标记,flag相同的话小的排在前面,未被标记的排在队列的前面
         bool operator()(const node& a, const node& b){
             return a.size>b.size;
         }
@@ -267,7 +251,6 @@ void MainWindow::best_merge_tree(int k){
         }
         QString str = TR("添加") + QString::number((k-1)-((count-1)%(k-1))) + TR("个虚段");
         ui->textBrowser_2->append(str);
-        //cout<<"添加"<<(k-1)-((count-1)%(k-1))<<"个虚段"<<endl;
     }
     for(int i=0;i<gbc.size();i++){
         if(gbc[i].size()){
@@ -277,13 +260,13 @@ void MainWindow::best_merge_tree(int k){
             a.push(s);b.push(s);
         }
     }
-    //cout<<b.size()<<endl;
-    //b=a;
+    /*
     while(!b.empty()){
         cout<<b.top().size<<" ";
         b.pop();
     }
     cout<<endl<<"以上为当前所有的归并串的长度 输出结束"<<endl;
+    */
     /*
      *
     for(int i=0;i<gbc.size();i++){
@@ -320,7 +303,6 @@ void MainWindow::best_merge_tree(int k){
         str+=str_temp;
         ui->textBrowser_2->append(str);
         guibing_count++;
-        //cout<<endl;
         a.push(s);
     }
     ui->textBrowser_2->append(TR("归并成功"));

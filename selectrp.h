@@ -1,7 +1,8 @@
-#ifndef SELECTRP_H
+﻿#ifndef SELECTRP_H
 #define SELECTRP_H
 
 #include <QWidget>
+#include <QIcon>
 
 namespace Ui {
 class selectrp;

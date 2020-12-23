@@ -3,6 +3,8 @@
 
 #include <QWidget>
 #include <QMovie>
+#include <QIcon>
+
 namespace Ui {
 class losertree;
 }

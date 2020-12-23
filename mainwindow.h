@@ -7,12 +7,7 @@
 #include <vector>
 #include <iostream>
 #include <fstream>
-#include <ctime>
-#include <iomanip>
-#include <algorithm>
-#include <concurrent_priority_queue.h>
 #include <queue>
-#include <stack>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }

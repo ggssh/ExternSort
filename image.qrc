@@ -1,5 +1,10 @@
 <RCC>
-    <qresource prefix="/new/prefix1">
-        <file>gif/22.gif</file>
+    <qresource prefix="/algorithm">
+        <file>gif/losertree.gif</file>
+    </qresource>
+    <qresource prefix="/image">
+        <file>image/1.jpg</file>
+        <file>image/bg.jpg</file>
+        <file>image/bg2.jpg</file>
     </qresource>
 </RCC>

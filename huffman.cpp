@@ -7,6 +7,7 @@ huffman::huffman(QWidget *parent) :
 {
     ui->setupUi(this);
     this->setWindowTitle(TR("哈夫曼树"));
+    this->setWindowIcon(QIcon(":/image/image/bg2.jpg"));
 }
 
 huffman::~huffman()

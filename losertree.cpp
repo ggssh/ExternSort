@@ -7,7 +7,8 @@ losertree::losertree(QWidget *parent) :
 {
     ui->setupUi(this);
     this->setWindowTitle(TR("败者树"));
-    static QMovie movie(":/new/prefix1/gif/22.gif");
+    this->setWindowIcon(QIcon(":/image/image/bg2.jpg"));
+    static QMovie movie(":/algorithm/gif/losertree.gif");
     movie.start();
     movie.resized(ui->label->size());
     ui->label->setMovie(&movie);

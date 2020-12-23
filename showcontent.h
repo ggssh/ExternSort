@@ -3,6 +3,7 @@
 
 #include <QWidget>
 #include <QFile>
+#include <QIcon>
 
 namespace Ui {
 class ShowContent;

@@ -7,6 +7,7 @@ perform_menu::perform_menu(QWidget *parent) :
 {
     ui->setupUi(this);
     this->setWindowTitle(TR("算法演示"));
+    this->setWindowIcon(QIcon(":/image/image/bg2.jpg"));
 }
 
 perform_menu::~perform_menu()

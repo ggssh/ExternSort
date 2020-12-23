@@ -7,6 +7,7 @@ selectrp::selectrp(QWidget *parent) :
 {
     ui->setupUi(this);
     this->setWindowTitle(TR("置换选择排序"));
+    this->setWindowIcon(QIcon(":/image/image/bg2.jpg"));
 }
 
 selectrp::~selectrp()
