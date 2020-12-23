@@ -55,25 +55,25 @@ void MainWindow::on_buttonsort_clicked()
     }
     Initial();
     init_data(totallength);
-    select_replace(BUFFER);
-    displayMergeSegment();
-    best_merge_tree(ways);
-    write_data();
-    loser_merge(m_count);
+    SelectReplace(BUFFER);
+    DisplayMergeSegment();
+    BestMergeTree(ways);
+    WriteData();
+    LoserMerge(m_count);
     if(!showcontent){
         showcontent = new ShowContent;
         showcontent->show();
     }
 }
-//Still have something wrong,but now that looks better than before
-void MainWindow::select_replace(int kk){
+void MainWindow::SelectReplace(int k){
     FILE* fin = fopen("unsort_file.txt","rt");
+    //定义选择置换排序中缓冲区中每个元素的结构类型
     typedef struct buf
     {
-        //缓冲区的数据
         int num;
         int flag=0;
     }buf;
+
     struct my_cmp
     {
         //自定义优先队列比较函数,flag=1表示打过标记,flag相同的话小的排在前面,未被标记的排在队列的前面
@@ -82,25 +82,26 @@ void MainWindow::select_replace(int kk){
             else return a.flag > b.flag;
         }
     };
-    ui->progressBar->setValue(0);//设置进度条的数值
+
+    ui->progressBar->setValue(0);//设置progressBar的当前值
     int count=0;//对数据量进行计数
-    ui->progressBar->setRange(0,totallength);
+    ui->progressBar->setRange(0,totallength);//设置progressBar的范围
     priority_queue<buf,vector<buf>,my_cmp> temp;//利用优先队列作为选择置换排序缓冲区
-    int aa;
+    int get_num;//从文件中读取的一个数字
     int n=0;
-    buf a1,a2,a3;
-    int t1=1;
-    while(fscanf(fin,"%d",&aa)!=EOF){
+    buf temp1,temp2,temp3;
+    int mark=1;
+    while(fscanf(fin,"%d",&get_num)!=EOF){
         count++;
         ui->progressBar->setValue(count);
-        if(t1){
-            vector<int> ss;
-            gbc.push_back(ss);
-            t1=0;
+        if(mark){
+            vector<int> vec_temp;
+            gbc.push_back(vec_temp);
+            mark=0;
         }
-        a1.num=aa;
-        temp.push(a1);
-        if(temp.size()==kk){
+        temp1.num=get_num;
+        temp.push(temp1);
+        if(temp.size()==k){
             //当缓冲区长度满后输出其中最小的未被标记的元素的数值
             if(gbc[n].size()==0){
                 gbc[n].push_back(temp.top().num);
@@ -108,10 +109,10 @@ void MainWindow::select_replace(int kk){
             }
             else{
                 while(temp.top().num<gbc[n][gbc[n].size()-1]){
-                    a2=temp.top();
-                    a2.flag=1;
+                    temp2=temp.top();
+                    temp2.flag=1;
                     temp.pop();
-                    temp.push(a2);
+                    temp.push(temp2);
                 }
                 gbc[n].push_back(temp.top().num);
                 temp.pop();
@@ -120,33 +121,32 @@ void MainWindow::select_replace(int kk){
         if(temp.top().flag==1){
             n++;
             while(temp.top().flag==1){
-                a3=temp.top();
-                a3.flag=0;
+                temp3=temp.top();
+                temp3.flag=0;
                 temp.pop();
-                temp.push(a3);
+                temp.push(temp3);
                 if(temp.top().flag==0){
-                    t1=1;
+                    mark=1;
                     break;
                 }
             }
         }
     }
-    if(temp.size()==kk-1){
+    if(temp.size()==k-1){
         /*
          * 此处有bug如果不再向vector中push_back一个元素的话可能会出现数组越界的情况
          * 但是添加一个元素的话可能会出现vector最后一个元素长度为0的情况
          */
-        vector<int> cc;
-        gbc.push_back(cc);
+        vector<int> vec_temp;//避免出现数组越界的情况
+        gbc.push_back(vec_temp);
         while(!temp.empty()){
             gbc[n].push_back(temp.top().num);
             temp.pop();
         }
     }
-    fclose(fin);
+    fclose(fin);//关闭已经打开的文件
 }
 
-//no problem
 /*
 void MainWindow::init_data(int n){
     //向文件中写入需要排序的数据
@@ -158,8 +158,7 @@ void MainWindow::init_data(int n){
     fclose(f);
 }*/
 
-//no problem
-void MainWindow::write_data(){
+void MainWindow::WriteData(){
     //将经选择置换排序之后获得的数据依次写入每个文件中
      int n=0;//记录归并段的数量
      for(int i=0;i<gbc.size();i++){
@@ -184,8 +183,7 @@ void MainWindow::write_data(){
      gbc.clear();//清理内存
 }
 
-//TO DO
-void MainWindow::loser_merge(int k){
+void MainWindow::LoserMerge(int k){
     ls = new int[k];
     b = new int[k+1];
     FILE *fout = fopen("sort_file.txt","wt");
@@ -220,11 +218,9 @@ void MainWindow::loser_merge(int k){
     fclose(fout);
 }
 
-//still has something to fix
-void MainWindow::best_merge_tree(int k){
+void MainWindow::BestMergeTree(int k){
     typedef struct node{
         int size;
-        //int locate;
     }node;
 
     /*
@@ -305,7 +301,7 @@ void MainWindow::best_merge_tree(int k){
             str+=" ";
             priQueueA.pop();
         }
-        QString str_temp = TR(" \n得到长度为")+QString::number(res.size)+TR("的顺串\n");
+        QString str_temp = TR("\n得到长度为")+QString::number(res.size)+TR("的顺串\n");
         str+=str_temp;
         ui->textBrowser_2->append(str);
         merge_count++;
@@ -358,7 +354,7 @@ void MainWindow::Initial(){
     ui->textBrowser_2->clear();
 }
 
-void MainWindow::displayMergeSegment(){
+void MainWindow::DisplayMergeSegment(){
     for(int i=0;i<gbc.size();i++){
         QString s=TR("第");
         s+=QString::number(i+1);

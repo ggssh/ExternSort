@@ -6,6 +6,7 @@ losertree::losertree(QWidget *parent) :
     ui(new Ui::losertree)
 {
     ui->setupUi(this);
+    setWindowFlags(windowFlags()&~Qt::WindowMaximizeButtonHint);    // 禁止最大化按钮
     this->setWindowTitle(TR("败者树"));
     this->setWindowIcon(QIcon(":/image/image/bg2.jpg"));
     static QMovie movie(":/algorithm/gif/losertree.gif");

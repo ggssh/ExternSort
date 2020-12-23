@@ -30,15 +30,13 @@ private:
     perform_menu *pm;
     ShowContent *showcontent=NULL;
 
-    void select_replace(int k);
-    //void init_data(int n);
-    void write_data();
-    void loser_merge(int k);
-    void best_merge_tree(int kk);
+    void SelectReplace(int k);
+    void WriteData();
+    void LoserMerge(int k);
+    void BestMergeTree(int kk);
     void Adjust(int s);
     void CreateLoserTree();
-    //char *temp_filename(int index);
     void Initial();
-    void displayMergeSegment();
+    void DisplayMergeSegment();
 };
 #endif // MAINWINDOW_H
