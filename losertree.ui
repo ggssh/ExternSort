@@ -42,6 +42,73 @@
 	background-color: #222b2e;
 	color: #FFFFFF;</string>
    </property>
+   <property name="markdown">
+    <string notr="true">`初始化的过程中，在所有分组中查看第一个数据，找出最大的一个数据所在的分组进行初始化树的非叶子结点。上图中最大的是11，在第二号分组`
+
+`-------------------------`
+
+`初始化第一步之后，开始从最后一个叶子结点调整败者树，最终treeNode[0]存放的就是最大的一个数，也就是最终胜出的那个数`
+
+`-------------------------`
+
+`从4号开始，父结点2(11)&gt;4(8)，对应的父结点改成8所在的数据源4，相应的index=2;继续比较，没有发生变化`
+
+`-------------------------`
+
+`3号的8开始比较，当比较到父结点的父结点的时候，满足败者更新父结点，index = 2。继续比较，最后treeNode[0] = 2;2(11)调整没有变化`
+
+`-------------------------`
+
+`1号的9调整之后,父结点更新变成1,index = 2;继续调整没有变化`
+
+`-------------------------`
+
+`0号的10和父结点指向的3中的第一个元素比较，不满足调整，接着和父结点的父结点比较，2(11)&gt;0(10)调整，此时index =
+2，表示胜利的结点在2号数据源，最终treeNode[0] = 2。输出最大值11`
+
+`-------------------------`
+
+`输出11之后2号数据源剩下7，从该叶子结点开始重新调整`
+
+`-------------------------`
+
+`败者叶子结点，更新父结点，index = 1；继续和父结点的父结点1(0)比较`
+
+`-------------------------`
+
+`0(10)&gt;1(9)，更新，index = 0；最终treeNode[0] = 0；输出第二大的值10`
+
+`-------------------------`
+
+`后面操作类似...`
+
+</string>
+   </property>
+   <property name="html">
+    <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'SimSun'; font-size:9pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p style=&quot; margin-top:6px; margin-bottom:6px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'Courier New';&quot;&gt;初始化的过程中，在所有分组中查看第一个数据，找出最大的一个数据所在的分组进行初始化树的非叶子结点。上图中最大的是11，在第二号分组&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:6px; margin-bottom:6px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'Courier New';&quot;&gt;-------------------------&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:6px; margin-bottom:6px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'Courier New';&quot;&gt;初始化第一步之后，开始从最后一个叶子结点调整败者树，最终treeNode[0]存放的就是最大的一个数，也就是最终胜出的那个数&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:6px; margin-bottom:6px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'Courier New';&quot;&gt;-------------------------&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:6px; margin-bottom:6px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'Courier New';&quot;&gt;从4号开始，父结点2(11)&amp;gt;4(8)，对应的父结点改成8所在的数据源4，相应的index=2;继续比较，没有发生变化&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:6px; margin-bottom:6px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'Courier New';&quot;&gt;-------------------------&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:6px; margin-bottom:6px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'Courier New';&quot;&gt;3号的8开始比较，当比较到父结点的父结点的时候，满足败者更新父结点，index = 2。继续比较，最后treeNode[0] = 2;2(11)调整没有变化&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:6px; margin-bottom:6px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'Courier New';&quot;&gt;-------------------------&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:6px; margin-bottom:6px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'Courier New';&quot;&gt;1号的9调整之后,父结点更新变成1,index = 2;继续调整没有变化&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:6px; margin-bottom:6px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'Courier New';&quot;&gt;-------------------------&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:6px; margin-bottom:6px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'Courier New';&quot;&gt;0号的10和父结点指向的3中的第一个元素比较，不满足调整，接着和父结点的父结点比较，2(11)&amp;gt;0(10)调整，此时index = 2，表示胜利的结点在2号数据源，最终treeNode[0] = 2。输出最大值11&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:6px; margin-bottom:6px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'Courier New';&quot;&gt;-------------------------&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:6px; margin-bottom:6px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'Courier New';&quot;&gt;输出11之后2号数据源剩下7，从该叶子结点开始重新调整&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:6px; margin-bottom:6px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'Courier New';&quot;&gt;-------------------------&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:6px; margin-bottom:6px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'Courier New';&quot;&gt;败者叶子结点，更新父结点，index = 1；继续和父结点的父结点1(0)比较&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:6px; margin-bottom:6px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'Courier New';&quot;&gt;-------------------------&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:6px; margin-bottom:6px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'Courier New';&quot;&gt;0(10)&amp;gt;1(9)，更新，index = 0；最终treeNode[0] = 0；输出第二大的值10&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:6px; margin-bottom:6px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'Courier New';&quot;&gt;-------------------------&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:6px; margin-bottom:6px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'Courier New';&quot;&gt;后面操作类似...&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+   </property>
   </widget>
  </widget>
  <resources/>
