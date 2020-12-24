@@ -17,34 +17,6 @@
    <string notr="true">background-color: rgb(255, 255, 255);</string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <widget class="QPushButton" name="buttonperform">
-    <property name="geometry">
-     <rect>
-      <x>290</x>
-      <y>310</y>
-      <width>111</width>
-      <height>28</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <family>幼圆</family>
-      <pointsize>10</pointsize>
-     </font>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">border-style: solid;
-	border-color: #050a0e;
-	border-width: 1px;
-	border-radius: 5px;
-	color: #FFFFFF;
-	padding: 2px;
-	background-color: #151a1e;</string>
-    </property>
-    <property name="text">
-     <string>算法演示</string>
-    </property>
-   </widget>
    <widget class="QTextBrowser" name="textBrowser">
     <property name="geometry">
      <rect>
@@ -56,8 +28,10 @@
     </property>
     <property name="font">
      <font>
-      <family>JetBrains Mono</family>
+      <family>黑体</family>
       <pointsize>10</pointsize>
+      <weight>50</weight>
+      <bold>false</bold>
      </font>
     </property>
     <property name="styleSheet">
@@ -65,7 +39,7 @@
 	border-style: solid;
 	border-color: #4fa08b;
 	background-color: #222b2e;
-	color: #d3dae3;</string>
+	color: #FFFFFF;</string>
     </property>
    </widget>
    <widget class="QLabel" name="label">
@@ -127,34 +101,6 @@
      <bool>true</bool>
     </property>
    </widget>
-   <widget class="QPushButton" name="buttonsort">
-    <property name="geometry">
-     <rect>
-      <x>292</x>
-      <y>420</y>
-      <width>111</width>
-      <height>28</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <family>幼圆</family>
-      <pointsize>11</pointsize>
-     </font>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">border-style: solid;
-	border-color: #050a0e;
-	border-width: 1px;
-	border-radius: 5px;
-	color: #FFFFFF;
-	padding: 2px;
-	background-color: #151a1e;</string>
-    </property>
-    <property name="text">
-     <string>外部排序</string>
-    </property>
-   </widget>
    <widget class="QSpinBox" name="spinBox1">
     <property name="geometry">
      <rect>
@@ -167,6 +113,8 @@
     <property name="font">
      <font>
       <family>JetBrains Mono</family>
+      <weight>75</weight>
+      <bold>true</bold>
      </font>
     </property>
     <property name="styleSheet">
@@ -196,6 +144,8 @@ border-color: qlineargradient(spread:pad, x1:0.5, y1:1, x2:0.5, y2:0, stop:0 rgb
     <property name="font">
      <font>
       <family>JetBrains Mono</family>
+      <weight>75</weight>
+      <bold>true</bold>
      </font>
     </property>
     <property name="styleSheet">
@@ -265,17 +215,103 @@ border-color: qlineargradient(spread:pad, x1:0.5, y1:1, x2:0.5, y2:0, stop:0 rgb
     </property>
     <property name="font">
      <font>
-      <family>JetBrains Mono</family>
+      <family>黑体</family>
       <pointsize>10</pointsize>
+      <weight>50</weight>
+      <bold>false</bold>
      </font>
+    </property>
+    <property name="autoFillBackground">
+     <bool>false</bool>
     </property>
     <property name="styleSheet">
      <string notr="true">border-width: 1px;
 	border-style: solid;
 	border-color: #4fa08b;
 	background-color: #222b2e;
-	color: #d3dae3;</string>
+	color: #FFFFFF;</string>
     </property>
+   </widget>
+   <widget class="QWidget" name="layoutWidget">
+    <property name="geometry">
+     <rect>
+      <x>290</x>
+      <y>230</y>
+      <width>111</width>
+      <height>261</height>
+     </rect>
+    </property>
+    <layout class="QVBoxLayout" name="verticalLayout">
+     <item>
+      <widget class="QPushButton" name="buttonperform">
+       <property name="font">
+        <font>
+         <family>幼圆</family>
+         <pointsize>10</pointsize>
+        </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">border-style: solid;
+	border-color: #050a0e;
+	border-width: 1px;
+	border-radius: 5px;
+	color: #FFFFFF;
+	padding: 2px;
+	background-color: #151a1e;</string>
+       </property>
+       <property name="text">
+        <string>算法演示</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="buttonsort">
+       <property name="font">
+        <font>
+         <family>幼圆</family>
+         <pointsize>11</pointsize>
+        </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">border-style: solid;
+	border-color: #050a0e;
+	border-width: 1px;
+	border-radius: 5px;
+	color: #FFFFFF;
+	padding: 2px;
+	background-color: #151a1e;</string>
+       </property>
+       <property name="text">
+        <string>外部排序</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="buttondisplay">
+       <property name="font">
+        <font>
+         <family>幼圆</family>
+         <pointsize>11</pointsize>
+        </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">border-style: solid;
+	border-color: #050a0e;
+	border-width: 1px;
+	border-radius: 5px;
+	color: #FFFFFF;
+	padding: 2px;
+	background-color: #151a1e;</string>
+       </property>
+       <property name="text">
+        <string>排序结果</string>
+       </property>
+       <property name="default">
+        <bool>false</bool>
+       </property>
+      </widget>
+     </item>
+    </layout>
    </widget>
   </widget>
  </widget>

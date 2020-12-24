@@ -10,14 +10,15 @@ ShowContent::ShowContent(QWidget *parent) :
     ui->setupUi(this);
     this->setWindowTitle(TR("以下为排序的结果"));
     this->setWindowIcon(QIcon(":/image/image/bg2.jpg"));
-    openText(Filename);
+    this->move(1315,330);
+    OpenText(Filename);
 }
 
 ShowContent::~ShowContent()
 {
     delete ui;
 }
-bool ShowContent::openText(const QString &FileName){
+bool ShowContent::OpenText(const QString &FileName){
     QFile aFile(FileName);
     if(!aFile.exists()) return false;
     if(!aFile.open(QIODevice::ReadOnly | QIODevice::Text)) return false;

@@ -31,12 +31,19 @@ MainWindow::MainWindow(QWidget *parent)
     setFixedSize(this->width(),this->height());                     // 禁止拖动窗口大小
     this->setWindowTitle(TR("计科1904-原毅哲-最佳归并树"));
     this->setWindowIcon(QIcon(":/image/image/bg2.jpg"));
+    ui->textBrowser->setText(TR("请选择数据量和归并路数后\n点击外部排序按钮"));
+    ui->textBrowser_2->setText(TR("排序完成后\n点击按钮查看排序结果"));
+    ui->buttondisplay->setEnabled(false);
 }
 
 MainWindow::~MainWindow()
 {
     //析构函数
+    showcontent->close();
+    delete showcontent;
+    showcontent=NULL;
     delete ui;
+
 }
 
 void MainWindow::on_buttonperform_clicked()
@@ -48,11 +55,6 @@ void MainWindow::on_buttonperform_clicked()
 
 void MainWindow::on_buttonsort_clicked()
 {
-    if(showcontent){
-        showcontent->close();
-        delete showcontent;
-        showcontent = NULL;
-    }
     Initial();
     init_data(totallength);
     SelectReplace(BUFFER);
@@ -60,10 +62,7 @@ void MainWindow::on_buttonsort_clicked()
     BestMergeTree(ways);
     WriteData();
     LoserMerge(m_count);
-    if(!showcontent){
-        showcontent = new ShowContent;
-        showcontent->show();
-    }
+    ui->buttondisplay->setEnabled(true);
 }
 void MainWindow::SelectReplace(int k){
     FILE* fin = fopen("unsort_file.txt","rt");
@@ -149,17 +148,6 @@ void MainWindow::SelectReplace(int k){
     }
     fclose(fin);//关闭已经打开的文件
 }
-
-/*
-void MainWindow::init_data(int n){
-    //向文件中写入需要排序的数据
-    srand(time(NULL));
-    FILE* f = fopen("unsort_file.txt", "wt");
-    for (int i = 0; i < n; i++) {
-        fprintf(f, "%d ", rand());
-    }
-    fclose(f);
-}*/
 
 void MainWindow::WriteData(){
     //将经选择置换排序之后获得的数据依次写入每个文件中
@@ -260,29 +248,10 @@ void MainWindow::BestMergeTree(int k){
         if(gbc[i].size()){
             node s;
             s.size=gbc[i].size();
-            //s.locate=i;
             priQueueA.push(s);
             priQueueB.push(s);
         }
     }
-    /*
-    while(!b.empty()){
-        cout<<b.top().size<<" ";
-        b.pop();
-    }
-    cout<<endl<<"以上为当前所有的归并串的长度 输出结束"<<endl;
-    */
-    /*
-     *
-    for(int i=0;i<gbc.size();i++){
-        if(gbc[i].size()){
-            node s;
-            s.size=gbc[i].size();
-            s.locate=i;
-            a.push(s);
-        }
-    }
-    */
     int merge_count = 1;
     while(priQueueA.size()!=1){
         node res;
@@ -333,13 +302,6 @@ void MainWindow::Adjust(int s){
         }
         ls[0]=s;//ls[0]存放调整后的最大值的位置
 }
-/*
-char * MainWindow::temp_filename(int index){
-    //创建临时文件
-    char* tempfile = new char[100];
-    sprintf(tempfile, "temp%d.txt", index);
-    return tempfile;
-}*/
 
 void MainWindow::CreateLoserTree(){
     //创建一个败者树
@@ -366,5 +328,18 @@ void MainWindow::DisplayMergeSegment(){
             s+=QString::number(gbc[i].size());
             ui->textBrowser->append(s);
         }
+    }
+}
+
+void MainWindow::on_buttondisplay_clicked()
+{
+    if(showcontent){
+        showcontent->close();
+        delete showcontent;
+        showcontent = NULL;
+    }
+    if(!showcontent){
+        showcontent = new ShowContent;
+        showcontent->show();
     }
 }

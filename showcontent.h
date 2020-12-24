@@ -19,7 +19,7 @@ public:
 
 private:
     Ui::ShowContent *ui;
-    bool openText(const QString &FileName);
+    bool OpenText(const QString &FileName);
 };
 
 #endif // SHOWCONTENT_H

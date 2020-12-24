@@ -6,22 +6,43 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>429</width>
-    <height>230</height>
+    <width>666</width>
+    <height>229</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Form</string>
   </property>
-  <layout class="QGridLayout" name="gridLayout">
-   <item row="0" column="0">
-    <widget class="QLabel" name="label">
-     <property name="text">
-      <string>TextLabel</string>
-     </property>
-    </widget>
-   </item>
-  </layout>
+  <widget class="QLabel" name="label">
+   <property name="geometry">
+    <rect>
+     <x>9</x>
+     <y>9</y>
+     <width>411</width>
+     <height>201</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>TextLabel</string>
+   </property>
+  </widget>
+  <widget class="QTextBrowser" name="textBrowser">
+   <property name="geometry">
+    <rect>
+     <x>440</x>
+     <y>10</y>
+     <width>211</width>
+     <height>211</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">border-width: 1px;
+	border-style: solid;
+	border-color: #4fa08b;
+	background-color: #222b2e;
+	color: #FFFFFF;</string>
+   </property>
+  </widget>
  </widget>
  <resources/>
  <connections/>

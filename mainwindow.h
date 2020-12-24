@@ -25,6 +25,8 @@ private slots:
     void on_buttonperform_clicked();
     void on_buttonsort_clicked();
 
+    void on_buttondisplay_clicked();
+
 private:
     Ui::MainWindow *ui;
     perform_menu *pm;
@@ -33,7 +35,7 @@ private:
     void SelectReplace(int k);
     void WriteData();
     void LoserMerge(int k);
-    void BestMergeTree(int kk);
+    void BestMergeTree(int k);
     void Adjust(int s);
     void CreateLoserTree();
     void Initial();
