@@ -225,7 +225,8 @@ void MainWindow::BestMergeTree(int k){
             return a.size>b.size;
         }
     };
-    priority_queue<node,vector<node>,_cmp> priQueueA,priQueueB;//创建两个优先队列来实现哈夫曼树
+    //创建两个优先队列来实现哈夫曼树
+    priority_queue<node,vector<node>,_cmp> priQueueA,priQueueB;
     int count=0;
     for(int i=0;i<gbc.size();i++){
         if(gbc[i].size()) count++;
@@ -236,7 +237,6 @@ void MainWindow::BestMergeTree(int k){
         for(int i=0;i<((k-1)-((count-1)%(k-1)));i++){
             node s;
             s.size=0;
-            //s.locate=-1;
             priQueueA.push(s);
             priQueueB.push(s);
         }
@@ -256,13 +256,6 @@ void MainWindow::BestMergeTree(int k){
     while(priQueueA.size()!=1){
         node res;
         res.size=0;
-        /*
-        for(int i=0;i<k;i++){
-           if(a.empty()) break;
-           s.size+=a.top().size;
-           cout<<a.top().size<<" ";
-           a.pop();
-        }*/
         QString str=TR("第");
         str+=QString::number(merge_count);
         str+=TR("次归并:");
